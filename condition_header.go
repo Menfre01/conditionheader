@@ -1,4 +1,4 @@
-package condition_header
+package conditionheader
 
 import (
 	"context"

@@ -1,4 +1,4 @@
-package condition_header
+package conditionheader
 
 import (
 	"context"
@@ -10,13 +10,13 @@ import (
 func TestConditionHeader(t *testing.T) {
 	cfg := CreateConfig()
 	cfg.Rules = append(cfg.Rules, &Rule{
-		Conditions: map[string]string{"Content-Type": "text/html.*"},
+		Conditions: map[string]string{"Content-Type": "^text/html.*$"},
 		Headers:    map[string]string{"Cache-Control": "no-cache, must-revalidate"},
 	})
 
 	ctx := context.Background()
 	next := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		rw.Header().Set("Content-Type", "text/html; charset=utf-8")
+		rw.Header().Set("Content-Type", "text/html")
 		rw.WriteHeader(http.StatusOK)
 		rw.Write([]byte("hello world"))
 	})
