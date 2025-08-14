@@ -9,7 +9,7 @@ import (
 
 func TestConditionHeader(t *testing.T) {
 	cfg := CreateConfig()
-	cfg.Rules = append(cfg.Rules, &Rule{
+	cfg.Rules = append(cfg.Rules, Rule{
 		Conditions: map[string]string{"Content-Type": "^text/html.*$"},
 		Headers:    map[string]string{"Cache-Control": "no-cache, must-revalidate"},
 	})
@@ -48,7 +48,7 @@ func assertHeader(t *testing.T, writer http.ResponseWriter, key, expected string
 func TestConditionHeader_ServeHTTP(t *testing.T) {
 	type fields struct {
 		next  http.Handler
-		rules []*Rule
+		rules []Rule
 		name  string
 	}
 	type args struct {
@@ -72,7 +72,7 @@ func TestConditionHeader_ServeHTTP(t *testing.T) {
 					rw.WriteHeader(http.StatusOK)
 					rw.Write([]byte("hello world"))
 				}),
-				rules: []*Rule{
+				rules: []Rule{
 					{
 						Conditions: map[string]string{"Content-Type": "text/html.*"},
 						Headers:    map[string]string{"Cache-Control": "no-cache"},
@@ -96,7 +96,7 @@ func TestConditionHeader_ServeHTTP(t *testing.T) {
 					rw.WriteHeader(http.StatusOK)
 					rw.Write([]byte("hello world"))
 				}),
-				rules: []*Rule{
+				rules: []Rule{
 					{
 						Conditions: map[string]string{"Content-Type": "text/plain.*"},
 						Headers:    map[string]string{"Cache-Control": "no-cache"},
@@ -119,7 +119,7 @@ func TestConditionHeader_ServeHTTP(t *testing.T) {
 					rw.WriteHeader(http.StatusOK)
 					rw.Write([]byte("hello world"))
 				}),
-				rules: []*Rule{
+				rules: []Rule{
 					{
 						Conditions: map[string]string{"Content-Type": ""},
 						Headers:    map[string]string{"Content-Type": "text/plain; charset=utf-8"},

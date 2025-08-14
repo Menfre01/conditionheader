@@ -8,7 +8,7 @@ import (
 )
 
 type Config struct {
-	Rules []*Rule `json:"rules,omitempty" yaml:"rules,omitempty"`
+	Rules []Rule `json:"rules,omitempty" yaml:"rules,omitempty"`
 }
 
 type Rule struct {
@@ -17,14 +17,12 @@ type Rule struct {
 }
 
 func CreateConfig() *Config {
-	return &Config{
-		Rules: make([]*Rule, 0),
-	}
+	return &Config{}
 }
 
 type ConditionHeader struct {
 	next  http.Handler
-	rules []*Rule
+	rules []Rule
 	name  string
 }
 
