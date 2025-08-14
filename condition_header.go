@@ -8,12 +8,12 @@ import (
 )
 
 type Config struct {
-	Rules []*Rule `json:"rules,omitempty"`
+	Rules []*Rule `json:"rules,omitempty" yaml:"rules,omitempty"`
 }
 
 type Rule struct {
-	Conditions map[string]string `json:"conditions,omitempty"`
-	Headers    map[string]string `json:"headers,omitempty"`
+	Conditions map[string]string `json:"conditions,omitempty" yaml:"conditions,omitempty"`
+	Headers    map[string]string `json:"headers,omitempty" yaml:"headers,omitempty"`
 }
 
 func CreateConfig() *Config {
