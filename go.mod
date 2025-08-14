@@ -1,3 +1,3 @@
-module github.com/Menfre01/condition-header
+module github.com/Menfre01/conditionheader
 
 go 1.23.6

@@ -8,9 +8,9 @@ Add plugin:
 ```yaml
 experimental:
   plugins:
-    add-response-header:
-      moduleName: github.com/Menfre01/condition-header
-      version: v0.0.1
+    condition-header:
+      moduleName: github.com/Menfre01/conditionheader
+      version: v0.0.2
 ```
 
 Configure middleware:
