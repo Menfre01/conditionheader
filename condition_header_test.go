@@ -11,7 +11,7 @@ func TestConditionHeader(t *testing.T) {
 	cfg := CreateConfig()
 	cfg.Rules = append(cfg.Rules, &Rule{
 		Conditions: map[string]string{"Content-Type": "text/plain; charset=utf-8"},
-		Headers:    map[string]string{"X-Powered-By": "pundi"},
+		Headers:    map[string]string{"X-Powered-By": "condition-header"},
 	})
 
 	ctx := context.Background()
@@ -35,7 +35,7 @@ func TestConditionHeader(t *testing.T) {
 
 	handler.ServeHTTP(recorder, req)
 
-	assertHeader(t, recorder, "X-Powered-By", "pundi")
+	assertHeader(t, recorder, "X-Powered-By", "condition-header")
 }
 
 func assertHeader(t *testing.T, writer http.ResponseWriter, key, expected string) {
