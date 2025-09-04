@@ -9,14 +9,14 @@ import (
 
 func TestConditionHeader(t *testing.T) {
 	cfg := CreateConfig()
-	cfg.Rules = append(cfg.Rules, Rule{
-		Conditions: map[string]string{"Content-Type": "^text/html.*$"},
-		Headers:    map[string]string{"Cache-Control": "no-cache, must-revalidate"},
+	cfg.Rules = append(cfg.Rules, &Rule{
+		Conditions: map[string]string{"Content-Type": "text/plain; charset=utf-8"},
+		Headers:    map[string]string{"X-Powered-By": "pundi"},
 	})
 
 	ctx := context.Background()
 	next := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		rw.Header().Set("Content-Type", "text/html")
+		rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		rw.WriteHeader(http.StatusOK)
 		rw.Write([]byte("hello world"))
 	})
@@ -35,7 +35,7 @@ func TestConditionHeader(t *testing.T) {
 
 	handler.ServeHTTP(recorder, req)
 
-	assertHeader(t, recorder, "Cache-Control", "no-cache, must-revalidate")
+	assertHeader(t, recorder, "X-Powered-By", "pundi")
 }
 
 func assertHeader(t *testing.T, writer http.ResponseWriter, key, expected string) {
@@ -48,7 +48,7 @@ func assertHeader(t *testing.T, writer http.ResponseWriter, key, expected string
 func TestConditionHeader_ServeHTTP(t *testing.T) {
 	type fields struct {
 		next  http.Handler
-		rules []Rule
+		rules []*Rule
 		name  string
 	}
 	type args struct {
@@ -72,7 +72,7 @@ func TestConditionHeader_ServeHTTP(t *testing.T) {
 					rw.WriteHeader(http.StatusOK)
 					rw.Write([]byte("hello world"))
 				}),
-				rules: []Rule{
+				rules: []*Rule{
 					{
 						Conditions: map[string]string{"Content-Type": "text/html.*"},
 						Headers:    map[string]string{"Cache-Control": "no-cache"},
@@ -96,7 +96,7 @@ func TestConditionHeader_ServeHTTP(t *testing.T) {
 					rw.WriteHeader(http.StatusOK)
 					rw.Write([]byte("hello world"))
 				}),
-				rules: []Rule{
+				rules: []*Rule{
 					{
 						Conditions: map[string]string{"Content-Type": "text/plain.*"},
 						Headers:    map[string]string{"Cache-Control": "no-cache"},
@@ -119,7 +119,7 @@ func TestConditionHeader_ServeHTTP(t *testing.T) {
 					rw.WriteHeader(http.StatusOK)
 					rw.Write([]byte("hello world"))
 				}),
-				rules: []Rule{
+				rules: []*Rule{
 					{
 						Conditions: map[string]string{"Content-Type": ""},
 						Headers:    map[string]string{"Content-Type": "text/plain; charset=utf-8"},

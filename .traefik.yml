@@ -6,8 +6,6 @@ import: github.com/Menfre01/conditionheader
 summary: 'Add some header if the condition is true'
 
 testData:
-  rules:
-    - conditions:
-        Content-Type: text/html.*
-      headers:
+  Rules:
+    - Headers:
         Cache-Control: no-cache, must-revalidate
